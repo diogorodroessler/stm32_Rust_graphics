@@ -1,0 +1,1 @@
+arm-none-eabi-objcopy -O binary target/thumbv7m-none-eabi/debug/blink_teste target/thumbv7m-none-eabi/debug/thefirm.bin

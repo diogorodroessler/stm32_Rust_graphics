@@ -1,0 +1,5 @@
+// first
+cargo build --target thumbv7m-none-eabi
+
+// second
+sh ./build_obj.sh
