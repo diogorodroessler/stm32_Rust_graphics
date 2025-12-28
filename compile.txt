@@ -1,5 +1,22 @@
-// first
+// << Commands Compilation Instructions >>
+
+// 1 - Build for the target
 cargo build --target thumbv7m-none-eabi
 
-// second
+// 2 - Transform binary output in the '.bin' binary file
 sh ./build_obj.sh
+
+-----------------------------------------------------------
+
+// Mount SD Card (Only Linux)
+
+// 1 - Create with 16MB
+dd if=/dev/zero of=sdcard.img bs=1M count=16
+
+// 2 - Create Partition
+mkfs.vfat sdcard.img
+
+// 3 - Mont for put files into
+// Always Mount in SOME FOLDERS >>>>'EMPTY'<<<<<
+// Replace /mnt for an folder empty
+sudo mount -o loop sdcard.img /mnt

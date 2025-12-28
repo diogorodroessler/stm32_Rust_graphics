@@ -3,15 +3,17 @@
 
 use display_interface_spi::SPIInterface;
 use embedded_graphics::{
-    pixelcolor::{Rgb565}, prelude::*, primitives::{
+    pixelcolor::Rgb565, prelude::*, primitives::{
         Circle, PrimitiveStyle,
-    },
+    }
 };
 use ili9341::{Ili9341, Orientation};
 use panic_halt as _; // panic handler padrão
 use cortex_m_rt::entry;
 use stm32f1xx_hal::{pac, spi::{Mode, Spi}, time::Hertz};
 use stm32f1xx_hal::prelude::*;
+
+static IMG: &[u8] = include_bytes!("../assets/img.raw");
 
 /// Simple test
 #[allow(unused)]
@@ -60,7 +62,7 @@ fn main() -> ! {
     // gpioa | gpiob
     let mut gpiob = dp.GPIOB.split();
     let mut gpioa = dp.GPIOA.split();
-    
+
     // Spi
     
     let clk  = gpioa.pa5.into_alternate_push_pull(&mut gpioa.crl); // SCK
@@ -88,6 +90,12 @@ fn main() -> ! {
     );
     let _iface = SPIInterface::new(spi, dc, cs);
 
+    // SD Card
+
+    let spi = &spi;
+
+    // Interface SPI/SD_Card
+    let sd_spi = embedded_sdmmc::SdMmcSpi::new(spi, cs);
 
     // ILI9341
     let mut ili = Ili9341::new(
